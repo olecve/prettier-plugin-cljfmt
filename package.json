@@ -1,0 +1,29 @@
+{
+  "name": "prettier-plugin-cljfmt",
+  "version": "0.1.0",
+  "description": "Prettier plugin for Clojure, ClojureScript, and cljc — powered by cljfmt compiled to JavaScript.",
+  "keywords": [
+    "prettier",
+    "prettier-plugin",
+    "clojure",
+    "clojurescript",
+    "cljfmt",
+    "formatter"
+  ],
+  "license": "MIT",
+  "author": "Oleg Tsvetkov <olecve@gmail.com>",
+  "main": "dist/index.js",
+  "files": [
+    "dist/",
+    "src/index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "echo \"build not configured yet\" && exit 1",
+    "test": "echo \"tests not configured yet\" && exit 1"
+  },
+  "peerDependencies": {
+    "prettier": "^3.0.0"
+  }
+}
