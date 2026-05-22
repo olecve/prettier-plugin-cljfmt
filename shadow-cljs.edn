@@ -1,0 +1,12 @@
+{:source-paths ["src"]
+
+ :dependencies
+ [[cljfmt "0.16.4"]
+  [rewrite-clj "1.2.50"]]
+
+ :builds
+ {:cljfmt
+  {:target :node-library
+   :output-to "dist/cljfmt.js"
+   :exports {:format cljfmt-js.core/format}
+   :compiler-options {:optimizations :simple}}}}

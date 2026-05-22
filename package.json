@@ -20,10 +20,14 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "echo \"build not configured yet\" && exit 1",
+    "build": "shadow-cljs release cljfmt",
+    "build:dev": "shadow-cljs compile cljfmt",
     "test": "echo \"tests not configured yet\" && exit 1"
   },
   "peerDependencies": {
     "prettier": "^3.0.0"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.28.20"
   }
 }
