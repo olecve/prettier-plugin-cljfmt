@@ -12,10 +12,10 @@
   ],
   "license": "MIT",
   "author": "Oleg Tsvetkov <olecve@gmail.com>",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "files": [
-    "dist/",
     "src/index.js",
+    "dist/cljfmt.js",
     "README.md",
     "LICENSE"
   ],
@@ -28,6 +28,7 @@
     "prettier": "^3.0.0"
   },
   "devDependencies": {
+    "prettier": "^3.3.0",
     "shadow-cljs": "^2.28.20"
   }
 }
