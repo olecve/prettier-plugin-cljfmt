@@ -12,6 +12,14 @@
   ],
   "license": "MIT",
   "author": "Oleg Tsvetkov <olecve@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olecve/prettier-plugin-cljfmt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/olecve/prettier-plugin-cljfmt/issues"
+  },
+  "homepage": "https://github.com/olecve/prettier-plugin-cljfmt#readme",
   "main": "src/index.js",
   "files": [
     "src/index.js",
