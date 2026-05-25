@@ -8,5 +8,6 @@
  {:cljfmt
   {:target :node-library
    :output-to "dist/cljfmt.js"
-   :exports {:format cljfmt-js.core/format}
+   :exports {:format cljfmt-js.core/format
+             :formatWithConfig cljfmt-js.core/format-with-config}
    :compiler-options {:optimizations :simple}}}}
