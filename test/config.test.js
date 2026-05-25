@@ -1,0 +1,57 @@
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const os = require("node:os");
+const path = require("node:path");
+const { execFileSync } = require("node:child_process");
+const prettier = require("prettier");
+const plugin = require("../src/index.js");
+
+const mktmp = () => fs.mkdtempSync(path.join(os.tmpdir(), "prettier-clj-"));
+
+const fmtPath = (source, filepath) =>
+  prettier.format(source, { filepath, plugins: [plugin] });
+
+test("applies .cljfmt.edn from the same directory as the file", async () => {
+  const dir = mktmp();
+  fs.writeFileSync(
+    path.join(dir, ".cljfmt.edn"),
+    "{:remove-multiple-non-indenting-spaces? true}",
+  );
+  const filepath = path.join(dir, "a.clj");
+  assert.equal(await fmtPath("(println    x)", filepath), "(println x)\n");
+});
+
+test("applies .cljfmt.edn from a parent directory", async () => {
+  const root = mktmp();
+  const nested = path.join(root, "src", "deep");
+  fs.mkdirSync(nested, { recursive: true });
+  fs.writeFileSync(
+    path.join(root, ".cljfmt.edn"),
+    "{:sort-ns-references? true}",
+  );
+  const filepath = path.join(nested, "ns.clj");
+  const input = "(ns foo (:require [z.b] [a.a]))";
+  const expected = "(ns foo (:require [a.a] [z.b]))\n";
+  assert.equal(await fmtPath(input, filepath), expected);
+});
+
+test("falls back to cljfmt defaults when no .cljfmt.edn exists", async () => {
+  const dir = mktmp();
+  const filepath = path.join(dir, "a.clj");
+  assert.equal(await fmtPath("(println    x)", filepath), "(println    x)\n");
+});
+
+test("e2e: prettier CLI --write respects .cljfmt.edn", () => {
+  const dir = mktmp();
+  fs.writeFileSync(
+    path.join(dir, ".cljfmt.edn"),
+    "{:remove-multiple-non-indenting-spaces? true}",
+  );
+  const filepath = path.join(dir, "fixture.clj");
+  fs.writeFileSync(filepath, "(println    x)\n");
+  const prettierBin = require.resolve("prettier/bin/prettier.cjs");
+  const pluginPath = path.resolve(__dirname, "..", "src", "index.js");
+  execFileSync("node", [prettierBin, "--plugin", pluginPath, "--write", filepath]);
+  assert.equal(fs.readFileSync(filepath, "utf8"), "(println x)\n");
+});
