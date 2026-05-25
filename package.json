@@ -20,7 +20,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run build",
     "build": "shadow-cljs release cljfmt",
     "build:dev": "shadow-cljs compile cljfmt",
     "pretest": "npm run build:dev",
