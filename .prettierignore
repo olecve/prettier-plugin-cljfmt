@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.shadow-cljs/
+target/
+package-lock.json
+.claude/

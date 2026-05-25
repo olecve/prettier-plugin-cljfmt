@@ -52,6 +52,12 @@ test("e2e: prettier CLI --write respects .cljfmt.edn", () => {
   fs.writeFileSync(filepath, "(println    x)\n");
   const prettierBin = require.resolve("prettier/bin/prettier.cjs");
   const pluginPath = path.resolve(__dirname, "..", "src", "index.js");
-  execFileSync("node", [prettierBin, "--plugin", pluginPath, "--write", filepath]);
+  execFileSync("node", [
+    prettierBin,
+    "--plugin",
+    pluginPath,
+    "--write",
+    filepath,
+  ]);
   assert.equal(fs.readFileSync(filepath, "utf8"), "(println x)\n");
 });

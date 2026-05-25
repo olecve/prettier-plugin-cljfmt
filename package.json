@@ -23,7 +23,10 @@
     "build": "shadow-cljs release cljfmt",
     "build:dev": "shadow-cljs compile cljfmt",
     "pretest": "npm run build:dev",
-    "test": "node --test test/*.test.js"
+    "test": "node --test test/*.test.js",
+    "preformat": "npm run build:dev",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "peerDependencies": {
     "prettier": "^3.0.0"

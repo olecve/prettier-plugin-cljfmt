@@ -39,11 +39,17 @@ test("dispatches via .clj filepath", async () => {
 });
 
 test("dispatches via .cljs filepath", async () => {
-  assert.equal(await fmtPath("(defn foo[x] x)", "x.cljs"), "(defn foo [x] x)\n");
+  assert.equal(
+    await fmtPath("(defn foo[x] x)", "x.cljs"),
+    "(defn foo [x] x)\n",
+  );
 });
 
 test("dispatches via .cljc filepath", async () => {
-  assert.equal(await fmtPath("(defn foo[x] x)", "x.cljc"), "(defn foo [x] x)\n");
+  assert.equal(
+    await fmtPath("(defn foo[x] x)", "x.cljc"),
+    "(defn foo [x] x)\n",
+  );
 });
 
 test("dispatches via .edn filepath", async () => {
