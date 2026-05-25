@@ -1,4 +1,35 @@
+const fs = require("node:fs");
+const path = require("node:path");
 const cljfmt = require("../dist/cljfmt.js");
+
+const configByDir = new Map();
+
+function findConfig(startDir) {
+  const visited = [];
+  let dir = startDir;
+  while (true) {
+    if (configByDir.has(dir)) {
+      const result = configByDir.get(dir);
+      for (const v of visited) configByDir.set(v, result);
+      return result;
+    }
+    const candidate = path.join(dir, ".cljfmt.edn");
+    if (fs.existsSync(candidate)) {
+      const content = fs.readFileSync(candidate, "utf8");
+      configByDir.set(dir, content);
+      for (const v of visited) configByDir.set(v, content);
+      return content;
+    }
+    visited.push(dir);
+    const parent = path.dirname(dir);
+    if (parent === dir) {
+      configByDir.set(dir, null);
+      for (const v of visited) configByDir.set(v, null);
+      return null;
+    }
+    dir = parent;
+  }
+}
 
 const languages = [
   {
@@ -12,7 +43,13 @@ const languages = [
 
 const parsers = {
   clojure: {
-    parse: (text) => cljfmt.format(text, null),
+    parse: (text, options) => {
+      const filepath = options && options.filepath;
+      const config = filepath
+        ? findConfig(path.dirname(path.resolve(filepath)))
+        : null;
+      return cljfmt.formatWithConfig(text, config);
+    },
     astFormat: "clojure-source",
     locStart: () => 0,
     locEnd: () => 0,
