@@ -4,14 +4,10 @@ A [Prettier](https://prettier.io/) plugin that formats Clojure (`.clj`), Clojure
 
 Powered by [cljfmt](https://github.com/weavejester/cljfmt) compiled to JavaScript via [shadow-cljs](https://github.com/thheller/shadow-cljs). No JVM or Clojure toolchain required at install time.
 
-**Status: experimental.** Not yet published to npm. APIs and behavior may change.
-
 ## Install
 
-From git, until a release is published:
-
 ```bash
-npm install --save-dev github:olecve/prettier-plugin-cljfmt
+npm install --save-dev prettier-plugin-cljfmt
 ```
 
 ## Usage
