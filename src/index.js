@@ -19,9 +19,7 @@ function findConfig(startDir) {
       try {
         cljfmt.parseConfig(content);
       } catch (err) {
-        throw new Error(
-          `Invalid .cljfmt.edn at ${candidate}: ${err.message}`,
-        );
+        throw new Error(`Invalid .cljfmt.edn at ${candidate}: ${err.message}`);
       }
       configByDir.set(dir, content);
       for (const v of visited) configByDir.set(v, content);
