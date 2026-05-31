@@ -55,3 +55,18 @@ test("dispatches via .cljc filepath", async () => {
 test("dispatches via .edn filepath", async () => {
   assert.equal(await fmtPath("{:a 1}", "x.edn"), "{:a 1}\n");
 });
+
+test("rejects unclosed delimiter with line/column info", async () => {
+  await assert.rejects(fmt("(unclosed"), (err) => {
+    assert.match(err.message, /Unexpected EOF/);
+    assert.match(err.message, /line 1/);
+    return true;
+  });
+});
+
+test("rejects unterminated string with line/column info", async () => {
+  await assert.rejects(fmt('"hello'), (err) => {
+    assert.match(err.message, /Unexpected EOF/);
+    return true;
+  });
+});

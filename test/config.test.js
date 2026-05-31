@@ -42,6 +42,18 @@ test("falls back to cljfmt defaults when no .cljfmt.edn exists", async () => {
   assert.equal(await fmtPath("(println    x)", filepath), "(println    x)\n");
 });
 
+test("applies custom :indents rule from .cljfmt.edn", async () => {
+  const dir = mktmp();
+  fs.writeFileSync(
+    path.join(dir, ".cljfmt.edn"),
+    "{:indents {my-when [[:block 1]]}}",
+  );
+  const filepath = path.join(dir, "a.clj");
+  const input = "(my-when foo\nbar)";
+  const expected = "(my-when foo\n  bar)\n";
+  assert.equal(await fmtPath(input, filepath), expected);
+});
+
 test("throws with file path when .cljfmt.edn has invalid EDN", async () => {
   const dir = mktmp();
   const configPath = path.join(dir, ".cljfmt.edn");
