@@ -16,6 +16,13 @@ function findConfig(startDir) {
     const candidate = path.join(dir, ".cljfmt.edn");
     if (fs.existsSync(candidate)) {
       const content = fs.readFileSync(candidate, "utf8");
+      try {
+        cljfmt.parseConfig(content);
+      } catch (err) {
+        throw new Error(
+          `Invalid .cljfmt.edn at ${candidate}: ${err.message}`,
+        );
+      }
       configByDir.set(dir, content);
       for (const v of visited) configByDir.set(v, content);
       return content;

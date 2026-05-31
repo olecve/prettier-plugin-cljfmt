@@ -42,6 +42,37 @@ test("falls back to cljfmt defaults when no .cljfmt.edn exists", async () => {
   assert.equal(await fmtPath("(println    x)", filepath), "(println    x)\n");
 });
 
+test("throws with file path when .cljfmt.edn has invalid EDN", async () => {
+  const dir = mktmp();
+  const configPath = path.join(dir, ".cljfmt.edn");
+  fs.writeFileSync(configPath, "{:indents");
+  const filepath = path.join(dir, "a.clj");
+  await assert.rejects(fmtPath("(+ 1 2)", filepath), (err) => {
+    assert.match(err.message, /Invalid \.cljfmt\.edn/);
+    assert.ok(err.message.includes(configPath));
+    return true;
+  });
+});
+
+test("throws with file path when .cljfmt.edn is not a map", async () => {
+  const dir = mktmp();
+  const configPath = path.join(dir, ".cljfmt.edn");
+  fs.writeFileSync(configPath, "[:not :a :map]");
+  const filepath = path.join(dir, "a.clj");
+  await assert.rejects(fmtPath("(+ 1 2)", filepath), (err) => {
+    assert.match(err.message, /Invalid \.cljfmt\.edn/);
+    assert.match(err.message, /top-level map/);
+    return true;
+  });
+});
+
+test("treats whitespace-only .cljfmt.edn as no config", async () => {
+  const dir = mktmp();
+  fs.writeFileSync(path.join(dir, ".cljfmt.edn"), "  \n  ");
+  const filepath = path.join(dir, "a.clj");
+  assert.equal(await fmtPath("(println    x)", filepath), "(println    x)\n");
+});
+
 test("e2e: prettier CLI --write respects .cljfmt.edn", () => {
   const dir = mktmp();
   fs.writeFileSync(
