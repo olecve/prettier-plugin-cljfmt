@@ -37,3 +37,5 @@ jobs:
       - run: npm test
 
       - run: npm run format:check
+
+      - run: npm run build
