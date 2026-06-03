@@ -11,4 +11,4 @@
    :exports {:format cljfmt-js.core/format
              :formatWithConfig cljfmt-js.core/format-with-config
              :parseConfig cljfmt-js.core/parse-config}
-   :compiler-options {:optimizations :simple}}}}
+   :compiler-options {:optimizations :advanced}}}}
