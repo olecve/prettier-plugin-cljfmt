@@ -1,6 +1,6 @@
 {
   "name": "prettier-plugin-cljfmt",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Prettier plugin for Clojure, ClojureScript, and cljc — powered by cljfmt compiled to JavaScript.",
   "keywords": [
     "prettier",
