@@ -1,8 +1,38 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const crypto = require("node:crypto");
 const cljfmt = require("../dist/cljfmt.js");
+const packageJson = require("../package.json");
 
 const configByDir = new Map();
+
+function hashNearestCljfmtEdn(startDir) {
+  let dir = startDir;
+  while (true) {
+    const candidate = path.join(dir, ".cljfmt.edn");
+    if (fs.existsSync(candidate)) {
+      return crypto
+        .createHash("sha1")
+        .update(fs.readFileSync(candidate))
+        .digest("hex")
+        .slice(0, 16);
+    }
+    const parent = path.dirname(dir);
+    if (parent === dir) return "none";
+    dir = parent;
+  }
+}
+
+// .cljfmt.edn is not tracked by Prettier's cache (--cache hashes only file
+// content + Prettier options + plugin identity). We bake a content hash of the
+// nearest .cljfmt.edn into the plugin's meta.version so once Prettier supports
+// plugin-meta-based cache keys (PR prettier/prettier#17808), config edits will
+// invalidate the cache automatically. Until that ships, README documents the
+// manual cache-wipe workaround.
+const meta = {
+  name: packageJson.name,
+  version: `${packageJson.version}+${hashNearestCljfmtEdn(process.cwd())}`,
+};
 
 function findConfig(startDir) {
   const visited = [];
@@ -67,4 +97,4 @@ const printers = {
   },
 };
 
-module.exports = { languages, parsers, printers };
+module.exports = { meta, languages, parsers, printers };

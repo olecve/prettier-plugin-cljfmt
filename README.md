@@ -34,6 +34,7 @@ If a `.cljfmt.edn` file exists in the file's directory or any ancestor, it is pi
 
 - Prettier's `printWidth`, `tabWidth`, and `useTabs` are ignored — cljfmt has its own rules.
 - cljfmt does not reflow expressions across lines.
+- `prettier --cache` does not invalidate when `.cljfmt.edn` changes. After editing the config, delete `node_modules/.cache/prettier/.prettier-cache` (or run once with `--no-cache`).
 
 ## Development
 
