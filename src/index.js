@@ -23,12 +23,12 @@ function hashNearestCljfmtEdn(startDir) {
   }
 }
 
-// .cljfmt.edn is not tracked by Prettier's cache (--cache hashes only file
-// content + Prettier options + plugin identity). We bake a content hash of the
-// nearest .cljfmt.edn into the plugin's meta.version so once Prettier supports
-// plugin-meta-based cache keys (PR prettier/prettier#17808), config edits will
-// invalidate the cache automatically. Until that ships, README documents the
-// manual cache-wipe workaround.
+// TODO(prettier#17808): .cljfmt.edn is not tracked by Prettier's cache
+// (--cache hashes only file content + Prettier options + plugin identity).
+// We bake a content hash of the nearest .cljfmt.edn into the plugin's
+// meta.version so once Prettier supports plugin-meta-based cache keys,
+// config edits will invalidate the cache automatically. Until that ships,
+// README documents the manual cache-wipe workaround.
 const meta = {
   name: packageJson.name,
   version: `${packageJson.version}+${hashNearestCljfmtEdn(process.cwd())}`,
