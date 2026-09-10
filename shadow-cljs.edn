@@ -1,7 +1,7 @@
 {:source-paths ["src"]
 
  :dependencies
- [[dev.weavejester/cljfmt "0.16.4"]
+ [[dev.weavejester/cljfmt "0.16.5"]
   [rewrite-clj "1.2.50"]]
 
  :builds
