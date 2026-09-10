@@ -44,7 +44,7 @@
     "prettier": "^3.0.0"
   },
   "devDependencies": {
-    "prettier": "^3.3.0",
-    "shadow-cljs": "^2.28.20"
+    "prettier": "^3.9.6",
+    "shadow-cljs": "^3.5.0"
   }
 }
